@@ -10,28 +10,27 @@ function readEntry(){
 
 /******ETAPE 2******/
 $user = 'root';
-$pass = 'root';
-$table = 'cinema';
+$pass = '';
+$table = 'epitech_tp';
 try{
-  $bdd = new PDO('mysql:host=localhost;dbname='.$table.'charset=utf8', $user, $pass);
+  $bdd = new PDO('mysql:host=localhost;dbname='.$table.';charset=utf8', $user, $pass);
   $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }catch(Exception $e){
         die('Erreur '.$e->getMessage());
     }
 
 /******ETAPE 3******/
+echo "mysql> ";
 $req = readEntry();
 
 /******ETAPE 4******/
 $cmd = explode(" ",$req)[0];
 
-/***SHOW***/
+// /***SHOW***/
 if($cmd = 'show'){
   $res = "+ - - - - - - - - - - - - - - - - - - - -+\n";
   $table = str_replace(";","",explode(" ",$req)[1]);
-  $reqShow = "SELECT COLUMN_NAME
-FROM INFORMATION_SCHEMA.COLUMNS
-WHERE TABLE_NAME=".$table;
+  $reqShow = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME=".$table;
   $show = $bdd->query($reqShow);
   while($showR = $show->fetch()){
     $res .= "| ".$show['COLUMN_NAME']." |\n";
@@ -40,7 +39,7 @@ WHERE TABLE_NAME=".$table;
   echo $res;
 }
 
-/***SELECT***/
+// /***SELECT***/
 if($cmd = 'select'){
   $champ = explode(" ",$req)[1];
   $res = "+ - - - - - - - - - - - - - - - - - - - -+\n";
